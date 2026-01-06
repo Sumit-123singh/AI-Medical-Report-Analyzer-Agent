@@ -15,6 +15,7 @@ app = FastAPI(title="AI Medical Report Analyzer")
 def on_startup():
     from app.db.base import Base
     from app.db.session import engine
+    
 
     Base.metadata.create_all(bind=engine)
 
