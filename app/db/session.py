@@ -1,30 +1,21 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-
 from app.core.config import settings
 
-engine = create_engine(
-    settings.DATABASE_URL,
-    pool_pre_ping=True,   # avoids MySQL disconnect issues
-)
+DATABASE_URL = settings.DATABASE_URL
 
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine,
-)
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
-
-from app.core.config import settings
-
-engine = create_engine(
-    settings.DATABASE_URL,
-    pool_pre_ping=True
-)
+engine = create_engine(DATABASE_URL)
 
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
     bind=engine
 )
+
+# ✅ THIS FUNCTION WAS MISSING OR WRONG
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
