@@ -25,4 +25,11 @@ google-genai
 ollama
 googletrans 
 
+# OCR core
+pytesseract
+pillow
+opencv-python
+pdf2image
 
+# Utilities
+numpy
