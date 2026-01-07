@@ -13,3 +13,16 @@ python-jose[cryptography]
 python-multipart
 email_validator
 bcrypt==3.2.0
+pydantic-settings
+
+# Translation
+deep-translator
+
+# Text to Speech
+gTTS
+
+google-genai
+ollama
+googletrans 
+
+
