@@ -5,4 +5,5 @@ uploads/
 audio/
 *.db
 service-account.json
+samples/
 
