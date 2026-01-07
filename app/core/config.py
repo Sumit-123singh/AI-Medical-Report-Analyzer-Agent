@@ -1,15 +1,19 @@
-from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic_settings import BaseSettings
+from pathlib import Path
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 class Settings(BaseSettings):
-    DATABASE_URL: str
-    SECRET_KEY: str
-    ALGORITHM: str = "HS256"
+    GEMINI_API_KEY: str
+    #OPENAI_API_KEY: str
+    DATABASE_URL: str | None = None
+    SECRET_KEY: str | None = None
+    algorithm:str="HS256"
 
-    model_config = SettingsConfigDict(
-        env_file=".env",
-        extra="allow"   # ✅ allow PYTHONPATH and others
-    )
+    class Config:
+        env_file = BASE_DIR.parent / ".env"
 
 
 settings = Settings()
