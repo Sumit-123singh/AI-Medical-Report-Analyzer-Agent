@@ -1,21 +1,13 @@
-from services.llm_service import ask_llm
+from app.services.llm_service import ask_llm
 
+def analyze_report(text: str) -> str:
+    """
+    Analyze medical report text using LLM
+    """
+    prompt = (
+        "Analyze the following medical report and extract key findings. "
+        "Do not give diagnosis:\n\n"
+        f"{text}"
+    )
 
-class MedicalAgent:
-    def analyze_report(self, report_text: str) -> str:
-        """
-        Analyze medical report and extract clinical meaning
-        """
-        prompt = f"""
-        You are a medical expert.
-        Analyze the following medical report and explain:
-        - Key findings
-        - Abnormal values
-        - Possible conditions
-
-        Medical Report:
-        {report_text}
-        """
-
-        response = ask_llm(prompt)
-        return response
+    return ask_llm(prompt)
