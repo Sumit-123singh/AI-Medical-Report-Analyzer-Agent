@@ -1,7 +1,7 @@
 import re
 
 
-def clean_text(text: str) -> str:
+def clean_medical_text(text: str) -> str:
     """
     Clean and normalize OCR extracted text.
     """
