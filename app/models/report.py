@@ -16,6 +16,7 @@ class MedicalReport(Base):
     file_path = Column(String(500), nullable=False)
 
     extracted_text = Column(Text, nullable=True)
+    status = Column(String, default="pending")
 
     uploaded_at = Column(DateTime(timezone=True), server_default=func.now())
 
