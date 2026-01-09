@@ -21,3 +21,5 @@ def ask_llm(prompt: str) -> str:
     )
 
     return response["message"]["content"]
+
+
