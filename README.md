@@ -1,52 +1,74 @@
 🩺 AI Medical Report Analyzer
 Built for Doctors. Designed for Patients.
 
-AI Medical Report Analyzer is a backend-focused, production-style AI system that transforms complex medical reports into clear, understandable insights.
-It supports doctor-level technical explanations, patient-friendly summaries, regional languages, and audio output, making medical information accessible to everyone.
+A backend-focused, production-style AI system that transforms complex medical reports into clear, actionable insights.
 
-⚠️ This project intentionally focuses on backend engineering, AI system design, and real-world healthcare workflows.
-Frontend is minimal — Swagger UI is used as the primary interface.
+This system supports:
+
+🧑‍⚕️ Doctor-level technical explanations
+
+🧍 Patient-friendly summaries
+
+🌍 Regional Indian languages
+
+🔊 Audio output (Text-to-Speech)
+
+⚠️ Note:
+This project intentionally focuses on backend engineering, AI system design, and real healthcare workflows.
+The frontend is minimal — Swagger UI is the primary interface.
 
 🎯 Problem Statement
 
-Medical reports are often:
+Medical reports today are often:
 
-Hard for patients to understand
+❌ Hard for patients to understand
 
-Time-consuming for doctors to explain
+⏱️ Time-consuming for doctors to explain
 
-Written in complex medical terminology
+📄 Filled with complex medical terminology
 
-Delivered as scanned PDFs or images
+🖨️ Delivered as scanned PDFs or images
 
-This project solves these problems by combining OCR, AI agents, language translation, and audio generation into a single backend system.
+✅ Solution
 
-🧑‍⚕️ Two Explanation Modes (Core Feature)
+This system combines:
+
+OCR
+
+AI agents
+
+Language translation
+
+Audio generation
+
+into one clean, scalable backend pipeline.
+
+🧑‍⚕️ Core Feature — Two Explanation Modes
 🔹 Doctor Mode
 
-Technical and clinical explanation
+Technical & clinical explanations
 
 Uses proper medical terminology
 
-Helps doctors quickly review reports
+Helps doctors review reports faster
 
-Suitable for diagnosis and professional use
+Suitable for diagnosis & professional use
 
 🔹 Patient Mode
 
 Simple, human-friendly language
 
-Explains medical terms step-by-step
+Medical terms explained step-by-step
 
 Designed for non-technical users
 
-Helps patients understand their health clearly
+Improves patient understanding
 
-👉 The same medical report is processed differently based on the selected mode.
+👉 The same report is processed differently based on the selected mode.
 
-🌍 Multilingual Support
+🌍 Multilingual Support (India-Focused)
 
-The system supports the following languages:
+Supported languages:
 
 ✅ English
 
@@ -60,23 +82,23 @@ This makes the system suitable for Indian healthcare environments and improves a
 
 🚀 Key Features
 
-🔐 OAuth2 + JWT authentication
+🔐 OAuth2 + JWT Authentication
 
-📄 Upload medical reports (PDF / Image)
+📄 Upload Medical Reports (PDF / Image)
 
-🧠 Multi-Agent AI architecture
+🧠 Multi-Agent AI Architecture
 
-🧑‍⚕️ Doctor & Patient explanation modes
+🧑‍⚕️ Doctor & Patient Explanation Modes
 
-🌍 Multilingual medical explanations
+🌍 Multilingual Medical Explanations
 
-🔊 Text-to-Speech audio generation
+🔊 Text-to-Speech Audio Output
 
-🗂️ User-specific report history
+🗂️ User-Specific Report History
 
-⚙️ Background task processing
+⚙️ Background Task Processing
 
-🧱 Clean, modular FastAPI backend design
+🧱 Clean, Modular FastAPI Backend
 
 🧠 High-Level System Flow
 Medical Report (PDF / Image)
@@ -101,62 +123,64 @@ Database Storage + Audio File
 Why OCR?
 
 Medical reports are often scanned PDFs or images.
-AI models cannot read images directly, so OCR converts them into text.
+AI models cannot read images directly — OCR converts them into text.
 
 OCR Tools Used
 
-pytesseract → Extracts text from images
+pytesseract → Image text extraction
 
 Pillow (PIL) → Image preprocessing
 
-PDF reader → Extracts text from PDF files
+PDF reader → PDF text extraction
 
-OpenCV (experiments) → Improves OCR accuracy
+OpenCV → OCR accuracy experiments
 
 OCR Pipeline
 
-Detect file type (PDF or image)
+Detect file type (PDF / Image)
 
-Convert pages to images if needed
+Convert PDF pages to images (if needed)
 
 Extract raw text
 
 Clean noisy OCR output
 
-Pass clean text to AI agents
+Send clean text to AI agents
 
-🧠 AI Architecture (Multi-Agent Design)
+🧠 AI Architecture — Multi-Agent Design
 
-This project follows a multi-agent AI architecture, where each agent has one clear responsibility.
+Each agent has one clear responsibility (Single Responsibility Principle).
 
 AI Agents
 
 Medical Agent → Understands medical content
 
-Explanation Agent → Simplifies information
+Explanation Agent → Simplifies & structures output
 
 Translation Agent → Converts language
 
-Voice Agent → Generates audio output
+Voice Agent → Generates audio
 
-This design follows the Single Responsibility Principle and keeps the system modular and extensible.
+✅ Modular
+✅ Extensible
+✅ Easy to maintain
 
 🦙 Ollama Server & LLaMA 3.2
 What is Ollama?
 
-Ollama is a local LLM server that allows running large language models offline.
+Ollama is a local LLM server that runs large language models offline.
 
 Why Ollama?
 
-No paid API dependency
+🔒 Full data privacy (critical for medical data)
 
-Full data privacy (important for medical data)
+💸 No paid API dependency
 
-Faster local experimentation
+⚡ Faster local experimentation
 
 Model Used
 
-LLaMA 3.2 (latest)
+LLaMA 3.2
 
 Use Cases
 
@@ -174,21 +198,21 @@ Uses gTTS (Google Text-to-Speech)
 
 Converts final explanation into audio
 
-Audio files are stored per report
+Audio stored per report
 
-Helpful for:
+Helpful For:
 
-Visually impaired users
+👁️ Visually impaired users
 
-Elderly patients
+👵 Elderly patients
 
-Audio-based understanding
+🎧 Audio-based understanding
 
-Audio files are saved in the audio/ directory.
+Audio files are stored in the audio/ directory.
 
 ⚙️ Background Tasks (FastAPI)
 
-Heavy operations such as:
+Heavy operations like:
 
 OCR processing
 
@@ -210,109 +234,109 @@ Better scalability
 
 Improved user experience
 
-
-📁 Project Structure
-
+📁 Project Structure (Clean & Explained)
 ai-medical-report-agent/
 │
-├── app/
+├── app/                         # Main application package
 │   ├── __init__.py
-│   │
-│   ├── main.py                     # FastAPI app entry point
-│   │
-│   ├── core/                       # App-wide settings & security
-│   │   ├── __init__.py
-│   │   ├── config.py               # Environment variables
-│   │   ├── security.py             # JWT, OAuth2, security utils
-│   │   └── deps.py                 # Common dependencies
-│   │
-│   ├── db/                         # Database setup
-│   │   ├── __init__.py
-│   │   ├── base.py                 # SQLAlchemy Base
-│   │   ├── session.py              # DB session management
-│   │   └── init_db.py              # Table creation logic
-│   │
-│   ├── models/                     # ORM models
-│   │   ├── __init__.py
-│   │   ├── user.py                 # User table
-│   │   ├── report.py               # Medical reports table
-│   │   └── analysis.py             # AI analysis results
-│   │
-│   ├── schemas/                    # Pydantic schemas
-│   │   ├── __init__.py
+│   ├── main.py                  # FastAPI app entry point
+│
+│   ├── core/                    # App-wide config & security
+│   │   ├── config.py            # Environment variables
+│   │   ├── security.py          # JWT, OAuth2 utilities
+│   │   └── deps.py              # Shared dependencies
+│
+│   ├── db/                      # Database setup
+│   │   ├── base.py              # SQLAlchemy Base
+│   │   ├── session.py           # DB session management
+│   │   └── init_db.py           # Table creation logic
+│
+│   ├── models/                  # ORM models
+│   │   ├── user.py              # User table
+│   │   ├── report.py            # Medical reports
+│   │   └── analysis.py          # AI analysis results
+│
+│   ├── schemas/                 # Pydantic schemas
 │   │   ├── user.py
 │   │   ├── auth.py
 │   │   └── report.py
-│   │
-│   ├── auth/                       # Authentication logic
-│   │   ├── __init__.py
-│   │   ├── jwt.py                  # JWT create/verify
-│   │   ├── hashing.py              # Password hashing (bcrypt)
-│   │   └── routes.py               # Register/Login APIs
-│   │
-│   ├── agents/                     # AI Agents
-│   │   ├── __init__.py
-│   │   ├── medical_agent.py        # Medical understanding agent
-│   │   ├── explain_agent.py        # Simplified explanation agent
-│   │   ├── translate_agent.py      # Multilingual translation agent
-│   │   └── voice_agent.py          # Text-to-speech agent
-│   │
-│   ├── services/                   # Service layer (AI orchestration)
-│   │   ├── __init__.py
-│   │   ├── llm_service.py          # Central LLM abstraction
-│   │   ├── report_processor.py     # End-to-end report pipeline
-│   │   ├── service_processor.py    # Coordinates multiple agents
-│   │   ├── translation_service.py  # Translation logic
-│   │   └── tts_service.py          # Text-to-speech service
-│   │
-│   ├── ocr/                        # OCR & preprocessing
-│   │   ├── __init__.py
-│   │   ├── pdf_reader.py           # PDF text extraction
-│   │   ├── image_reader.py         # Image OCR
-│   │   └── clean_text.py           # OCR text cleaning
-│   │
-│   ├── api/                        # API routes
-│   │   ├── __init__.py
-│   │   ├── report_routes.py        # Upload & analyze report
-│   │   └── history_routes.py       # User report history
-│   │
-│   ├── utils/                      # Helper utilities
-│   │   ├── __init__.py
-│   │   ├── file_utils.py           # File handling helpers
-│   │   └── response_utils.py       # Common API responses
-│   │
-│   ├── test_agent_run.py           # Agent pipeline testing (dev only)
-│   ├── test_cv2.py                 # OpenCV experimentation
-│   └── test_ocr.py                 # OCR testing & debugging
 │
-├── uploads/                        # Uploaded medical reports
-├── audio/                          # Generated TTS audio files
+│   ├── auth/                    # Authentication logic
+│   │   ├── jwt.py               # JWT create/verify
+│   │   ├── hashing.py           # Password hashing
+│   │   └── routes.py            # Register/Login APIs
 │
-├── requirements.txt                # Python dependencies
-├── .env                            # Environment variables
-└── README.md                       # Project documentation
+│   ├── agents/                  # AI agents (single responsibility)
+│   │   ├── medical_agent.py
+│   │   ├── explain_agent.py
+│   │   ├── translate_agent.py
+│   │   └── voice_agent.py
+│
+│   ├── services/                # Business logic orchestration
+│   │   ├── llm_service.py
+│   │   ├── report_processor.py
+│   │   ├── translation_service.py
+│   │   └── tts_service.py
+│
+│   ├── ocr/                     # OCR & preprocessing
+│   │   ├── pdf_reader.py
+│   │   ├── image_reader.py
+│   │   └── clean_text.py
+│
+│   ├── api/                     # API routes
+│   │   ├── report_routes.py
+│   │   └── history_routes.py
+│
+│   └── utils/                   # Helper utilities
+│       ├── file_utils.py
+│       └── response_utils.py
+│
+├── uploads/                     # Uploaded medical reports
+├── audio/                       # Generated audio files
+├── requirements.txt             # Python dependencies
+├── .env                         # Environment variables
+└── README.md                    # Project documentation
 
+💡 Why This Structure?
 
-▶️ How to Run the Project (After Clone)
+Clear separation of concerns
+
+Scales well in production
+
+Easy onboarding for new developers
+
+Matches real-world backend architecture
+
+▶️ How to Run the Project
+1️⃣ Clone the Repository
 git clone 
 cd ai-medical-report-agent
 
+2️⃣ Create Virtual Environment
 python -m venv venv
-venv\Scripts\activate   # Windows
-# source venv/bin/activate  # macOS/Linux
 
+
+Windows
+
+venv\Scripts\activate
+
+
+macOS / Linux
+
+source venv/bin/activate
+
+3️⃣ Install Dependencies
 pip install -r requirements.txt
+
+4️⃣ Run the Server
 uvicorn app.main:app --reload
 
-
-Open Swagger UI:
-
+5️⃣ Open Swagger UI
 http://127.0.0.1:8000/docs
 
-
 👤 Author
-
 Sumit Singh
+
 Backend & AI Engineer
 
-Focused on building scalable backend systems and AI-powered applications using FastAPI, OCR pipelines, LLMs, and clean architecture principles.
+Focused on building scalable backend systems and AI-powered healthcare applications using:
