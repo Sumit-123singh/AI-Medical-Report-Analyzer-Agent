@@ -1,4 +1,6 @@
 🩺 AI Medical Report Analyzer
+
+
 Built for Doctors. Designed for Patients.
 
 A backend-focused, production-style AI system that transforms complex medical reports into clear, actionable insights.
@@ -112,28 +114,6 @@ This makes the system suitable for Indian healthcare environments and improves a
 🧱 Clean, Modular FastAPI Backend
 
 
-
-🧠 High-Level System Flow
-
-```text
-
-Medical Report (PDF / Image)
-        ↓
-OCR Extraction
-        ↓
-Text Cleaning
-        ↓
-Medical Understanding Agent
-        ↓
-Mode Selection (Doctor / Patient)
-        ↓
-Explanation Agent
-        ↓
-Translation Agent
-        ↓
-Text-to-Speech Agent
-        ↓
-Database Storage + Audio File   ```
 
 
 
@@ -326,11 +306,34 @@ Improved user experience
 └── README.md   ```
 
 
+🧠 High-Level System Flow
+
+```text
+
+Medical Report (PDF / Image)
+        ↓
+OCR Extraction
+        ↓
+Text Cleaning
+        ↓
+Medical Understanding Agent
+        ↓
+Mode Selection (Doctor / Patient)
+        ↓
+Explanation Agent
+        ↓
+Translation Agent
+        ↓
+Text-to-Speech Agent
+        ↓
+Database Storage + Audio File   ```
+
+
 ▶️ How to Run the Project
 
 
 1️⃣ Clone the Repository
-git clone <repo-url>
+git clone (https://github.com/Sumit-123singh/AI-Medical-Report-Analyzer-Agent)
 cd ai-medical-report-agent
 
 2️⃣ Create Virtual Environment
