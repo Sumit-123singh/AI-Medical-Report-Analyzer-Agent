@@ -4,9 +4,19 @@ from app.services.translation_service import translate_text
 class TranslateAgent:
     """
     Handles language translation for medical reports.
+
+    Demo-supported languages:
+    - English
+    - Hindi
+    - Marathi
+    - Tamil
+
+    NOTE:
+    - Hinglish is handled via LLM (not translated here)
+    - Bhojpuri is intentionally removed from demo support
     """
 
-    # Supported language mapping
+    # Supported language mapping (REAL TRANSLATION ONLY)
     LANGUAGE_MAP = {
         "english": "en",
         "en": "en",
@@ -19,31 +29,33 @@ class TranslateAgent:
 
         "tamil": "ta",
         "ta": "ta",
-
-        # Bhojpuri is NOT officially supported → fallback to Hindi
-        "bhojpuri": "hi"
     }
+
+    # Languages handled directly by LLM (no translation)
+    LLM_LANGUAGES = {"hinglish"}
 
     def translate(self, text: str, target_language: str) -> str:
         """
         Translate text into selected language.
-        Supported: English, Hindi, Marathi, Tamil, Bhojpuri
+        Hinglish is returned as-is.
         """
 
-        if not text.strip():
-            return text  # nothing to translate
+        if not text or not text.strip():
+            return text
 
-        # Normalize language
         lang_key = target_language.lower().strip()
+
+        # 🚀 LLM-handled languages → DO NOT TRANSLATE
+        if lang_key in self.LLM_LANGUAGES:
+            return text
+
         lang_code = self.LANGUAGE_MAP.get(lang_key, "en")
 
         try:
-            translated_text = translate_text(
+            return translate_text(
                 text=text,
                 target_language=lang_code
             )
-            return translated_text
         except Exception as e:
-            # Fail-safe: return original text
             print(f"[Translation Error] {e}")
             return text
