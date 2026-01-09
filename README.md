@@ -233,7 +233,8 @@ Improved user experience
 
 📁 Complete Project Structure
 
-****ai-medical-report-agent/
+'''text
+ai-medical-report-agent/
 │
 ├── app/
 │   ├── __init__.py
@@ -311,7 +312,7 @@ Improved user experience
 ├── requirements.txt
 ├── .env
 └── README.md
-****
+'''
 
 1️⃣ Clone the Repository
 
