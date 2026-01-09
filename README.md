@@ -13,9 +13,11 @@ This system supports:
 
 🔊 Audio output (Text-to-Speech)
 
-⚠️ Note:
+⚠️ Note
 This project intentionally focuses on backend engineering, AI system design, and real healthcare workflows.
 The frontend is minimal — Swagger UI is the primary interface.
+
+
 
 🎯 Problem Statement
 
@@ -28,6 +30,9 @@ Medical reports today are often:
 📄 Filled with complex medical terminology
 
 🖨️ Delivered as scanned PDFs or images
+
+
+
 
 ✅ Solution
 
@@ -54,6 +59,8 @@ Helps doctors review reports faster
 
 Suitable for diagnosis & professional use
 
+
+
 🔹 Patient Mode
 
 Simple, human-friendly language
@@ -64,7 +71,9 @@ Designed for non-technical users
 
 Improves patient understanding
 
-👉 The same report is processed differently based on the selected mode.
+👉 The same medical report is processed differently based on the selected mode.
+
+
 
 🌍 Multilingual Support (India-Focused)
 
@@ -79,6 +88,8 @@ Supported languages:
 ✅ Tamil
 
 This makes the system suitable for Indian healthcare environments and improves accessibility for non-English users.
+
+
 
 🚀 Key Features
 
@@ -100,6 +111,8 @@ This makes the system suitable for Indian healthcare environments and improves a
 
 🧱 Clean, Modular FastAPI Backend
 
+
+
 🧠 High-Level System Flow
 Medical Report (PDF / Image)
         ↓
@@ -118,6 +131,8 @@ Translation Agent
 Text-to-Speech Agent
         ↓
 Database Storage + Audio File
+
+
 
 📄 OCR (Optical Character Recognition)
 Why OCR?
@@ -147,9 +162,11 @@ Clean noisy OCR output
 
 Send clean text to AI agents
 
+
+
 🧠 AI Architecture — Multi-Agent Design
 
-Each agent has one clear responsibility (Single Responsibility Principle).
+Each agent follows the Single Responsibility Principle.
 
 AI Agents
 
@@ -164,6 +181,8 @@ Voice Agent → Generates audio
 ✅ Modular
 ✅ Extensible
 ✅ Easy to maintain
+
+
 
 🦙 Ollama Server & LLaMA 3.2
 What is Ollama?
@@ -192,6 +211,8 @@ Summarization
 
 Translation prompts
 
+
+
 🔊 Text-to-Speech (Audio Generation)
 
 Uses gTTS (Google Text-to-Speech)
@@ -200,7 +221,7 @@ Converts final explanation into audio
 
 Audio stored per report
 
-Helpful For:
+Helpful For
 
 👁️ Visually impaired users
 
@@ -210,9 +231,11 @@ Helpful For:
 
 Audio files are stored in the audio/ directory.
 
+
+
 ⚙️ Background Tasks (FastAPI)
 
-Heavy operations like:
+Heavy operations such as:
 
 OCR processing
 
@@ -234,96 +257,83 @@ Better scalability
 
 Improved user experience
 
-📁 Project Structure (Clean & Explained)
-ai-medical-report-agent/
+
+
+📁 Project Structure
+
+```text  ai-medical-report-agent/
 │
-├── app/                         # Main application package
-│   ├── __init__.py
-│   ├── main.py                  # FastAPI app entry point
+├── app/
+│   ├── main.py                 # FastAPI entry point
 │
-│   ├── core/                    # App-wide config & security
-│   │   ├── config.py            # Environment variables
-│   │   ├── security.py          # JWT, OAuth2 utilities
-│   │   └── deps.py              # Shared dependencies
+│   ├── core/                   # Config & security
+│   │   ├── config.py
+│   │   ├── security.py
+│   │   └── deps.py
 │
-│   ├── db/                      # Database setup
-│   │   ├── base.py              # SQLAlchemy Base
-│   │   ├── session.py           # DB session management
-│   │   └── init_db.py           # Table creation logic
+│   ├── db/                     # Database layer
+│   │   ├── base.py
+│   │   ├── session.py
+│   │   └── init_db.py
 │
-│   ├── models/                  # ORM models
-│   │   ├── user.py              # User table
-│   │   ├── report.py            # Medical reports
-│   │   └── analysis.py          # AI analysis results
+│   ├── models/                 # ORM models
+│   │   ├── user.py
+│   │   ├── report.py
+│   │   └── analysis.py
 │
-│   ├── schemas/                 # Pydantic schemas
+│   ├── schemas/                # Pydantic schemas
 │   │   ├── user.py
 │   │   ├── auth.py
 │   │   └── report.py
 │
-│   ├── auth/                    # Authentication logic
-│   │   ├── jwt.py               # JWT create/verify
-│   │   ├── hashing.py           # Password hashing
-│   │   └── routes.py            # Register/Login APIs
+│   ├── auth/                   # Authentication
+│   │   ├── jwt.py
+│   │   ├── hashing.py
+│   │   └── routes.py
 │
-│   ├── agents/                  # AI agents (single responsibility)
+│   ├── agents/                 # AI agents
 │   │   ├── medical_agent.py
 │   │   ├── explain_agent.py
 │   │   ├── translate_agent.py
 │   │   └── voice_agent.py
 │
-│   ├── services/                # Business logic orchestration
+│   ├── services/               # Business logic
 │   │   ├── llm_service.py
 │   │   ├── report_processor.py
 │   │   ├── translation_service.py
 │   │   └── tts_service.py
 │
-│   ├── ocr/                     # OCR & preprocessing
+│   ├── ocr/                    # OCR pipeline
 │   │   ├── pdf_reader.py
 │   │   ├── image_reader.py
 │   │   └── clean_text.py
 │
-│   ├── api/                     # API routes
+│   ├── api/                    # API routes
 │   │   ├── report_routes.py
 │   │   └── history_routes.py
 │
-│   └── utils/                   # Helper utilities
+│   └── utils/                  # Helpers
 │       ├── file_utils.py
 │       └── response_utils.py
 │
-├── uploads/                     # Uploaded medical reports
-├── audio/                       # Generated audio files
-├── requirements.txt             # Python dependencies
-├── .env                         # Environment variables
-└── README.md                    # Project documentation
+├── uploads/                    # Uploaded reports
+├── audio/                      # Generated audio
+├── requirements.txt
+├── .env
+└── README.md   ```
 
-💡 Why This Structure?
-
-Clear separation of concerns
-
-Scales well in production
-
-Easy onboarding for new developers
-
-Matches real-world backend architecture
 
 ▶️ How to Run the Project
+
+
 1️⃣ Clone the Repository
-git clone 
+git clone <repo-url>
 cd ai-medical-report-agent
 
 2️⃣ Create Virtual Environment
 python -m venv venv
-
-
 Windows
-
 venv\Scripts\activate
-
-
-macOS / Linux
-
-source venv/bin/activate
 
 3️⃣ Install Dependencies
 pip install -r requirements.txt
@@ -334,9 +344,12 @@ uvicorn app.main:app --reload
 5️⃣ Open Swagger UI
 http://127.0.0.1:8000/docs
 
+
+
 👤 Author
 Sumit Singh
 
 Backend & AI Engineer
 
-Focused on building scalable backend systems and AI-powered healthcare applications using:
+Focused on building scalable backend systems and AI-powered healthcare applications using FastAPI, OCR pipelines, LLMs, and clean architecture principles.
+
