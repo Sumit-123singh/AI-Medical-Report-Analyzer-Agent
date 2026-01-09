@@ -1,3 +1,5 @@
+
+
 from gtts import gTTS
 from gtts.tts import gTTSError
 import os
@@ -13,7 +15,7 @@ LANGUAGE_MAP = {
     "hinglish": "hi",
     "marathi": "mr",
     "tamil": "ta",
-    "bhojpuri": "hi"
+    # "bhojpuri": "hi"
 }
 
 MAX_TTS_CHARS = 1200  # 🔥 SAFE LIMIT
