@@ -115,7 +115,7 @@ This makes the system suitable for Indian healthcare environments and improves a
 
 🧠 High-Level System Flow
 
-```tex
+```text
 
 Medical Report (PDF / Image)
         ↓
