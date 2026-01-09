@@ -1,103 +1,163 @@
-from fastapi import APIRouter, UploadFile, File, Depends, HTTPException
-from sqlalchemy.orm import Session
-import os
-import traceback
+from fastapi import APIRouter, UploadFile, File, Form, HTTPException
+from pathlib import Path
+import shutil
 
-from app.db.session import get_db
-from app.core.deps import get_current_user
-from app.models.report import MedicalReport
-from app.models.analysis import AnalysisResult   # ✅ STEP 1: IMPORT
-from app.models.user import User
+from app.ocr.pdf_reader import read_pdf
+from app.agents.explain_agent import ExplainAgent
+from app.agents.translate_agent import TranslateAgent
+from app.agents.voice_agent import text_to_voice
+from app.utils.response_utils import add_medical_disclaimer
+
 
 router = APIRouter(prefix="/reports", tags=["Reports"])
 
 
-@router.post("/upload")
-def upload_report(
+# -----------------------------
+# Supported demo languages
+# -----------------------------
+SUPPORTED_LANGUAGES = {"english", "hindi", "marathi", "tamil"}
+SUPPORTED_MODES = {"patient", "doctor"}
+
+
+# -----------------------------
+# Agent instances
+# -----------------------------
+explain_agent = ExplainAgent()
+translate_agent = TranslateAgent()
+
+
+# =========================================================
+# ANALYZE REPORT (PDF / IMAGE → TEXT → EXPLAIN → AUDIO)
+# =========================================================
+@router.post("/analyze")
+def analyze_report(
     file: UploadFile = File(...),
-    db: Session = Depends(get_db),
-    current_user: User = Depends(get_current_user)
+    mode: str = Form(...),        # doctor / patient
+    language: str = Form(...)     # english / hindi / marathi / tamil
 ):
+    # -----------------------------
+    # Validate language
+    # -----------------------------
+     # Normalize inputs
+    mode = mode.lower().strip()
+    language = language.lower().strip()
+
+    # Validate mode
+    if mode not in SUPPORTED_MODES:
+        raise HTTPException(
+            status_code=400,
+            detail="Mode not supported. Please select one of: patient, doctor."
+        )
+    language = language.lower().strip()
+
+    if language not in SUPPORTED_LANGUAGES:
+        raise HTTPException(
+            status_code=400,
+            detail=(
+                "Language not supported. "
+                "Please select one of: English, Hindi, Marathi, Tamil."
+            )
+        )
+
+    upload_dir = Path("uploads")
+    upload_dir.mkdir(exist_ok=True)
+
+    file_path = upload_dir / file.filename
+
+    # -----------------------------
+    # Save uploaded file
+    # -----------------------------
     try:
-        print("🔥 /reports/upload HIT")
-        print("🔥 Current user ID:", current_user.id)
-        print("🔥 Filename:", file.filename)
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+    except Exception:
+        raise HTTPException(status_code=500, detail="Failed to save uploaded file")
 
-        # Ensure uploads directory exists
-        os.makedirs("uploads", exist_ok=True)
-        file_path = f"uploads/{file.filename}"
-
-        # 1️⃣ Save file to disk
-        with open(file_path, "wb") as f:
-            f.write(file.file.read())
-
-        print("✅ File saved at:", file_path)
-
-        # 2️⃣ Save medical report
-        report = MedicalReport(
-            user_id=current_user.id,
-            file_name=file.filename,
-            file_path=file_path,
-            status="uploaded"
-        )
-
-        db.add(report)
-        db.commit()
-        db.refresh(report)  # report.id available
-
-        print("✅ Report saved in DB with ID:", report.id)
-
-        # 3️⃣ SAVE ANALYSIS RESULT (THIS WAS MISSING)
-        analysis = AnalysisResult(
-            report_id=report.id,
-            summary="Sample medical summary",
-            explanation="This is a demo explanation until AI is connected.",
-            risk_level="Low",
-            language="en"
-        )
-
-        db.add(analysis)
-        db.commit()
-
-        print("✅ Analysis saved for report ID:", report.id)
-
-        return {
-            "message": "Report uploaded and analyzed successfully",
-            "report_id": report.id,
-            "analysis_saved": True
-        }
-
+    # -----------------------------
+    # OCR (RAW TEXT)
+    # -----------------------------
+    try:
+        raw_text = read_pdf(file_path)
     except Exception as e:
-        print("❌ ERROR during upload")
-        traceback.print_exc()
         raise HTTPException(status_code=500, detail=str(e))
 
+    if not raw_text.strip():
+        raise HTTPException(
+            status_code=400,
+            detail="No readable text found in the uploaded document"
+        )
 
-# ✅ DB FORCE TEST (KEEP THIS FOR DEBUGGING)
-@router.post("/absolute-db-test")
-def absolute_db_test(db: Session = Depends(get_db)):
-    report = MedicalReport(
-        user_id=1,
-        file_name="absolute.pdf",
-        file_path="uploads/absolute.pdf",
-        status="uploaded"
+    # -----------------------------
+    # Decide LLM language strategy
+    # -----------------------------
+    # For Marathi & Tamil → generate English, then translate
+    llm_language = "english" if language in {"marathi", "tamil"} else language
+
+    # -----------------------------
+    # EXPLAIN (LLM)
+    # -----------------------------
+    explained_text = explain_agent.explain(
+        text=raw_text,
+        mode=mode,
+        language=llm_language
     )
 
-    db.add(report)
-    db.commit()
-    db.refresh(report)
-
-    analysis = AnalysisResult(
-        report_id=report.id,
-        summary="Absolute test summary",
-        explanation="Absolute test explanation",
-        risk_level="Low",
-        language="en"
+    # -----------------------------
+    # TRANSLATE (if needed)
+    # -----------------------------
+    final_text = translate_agent.translate(
+        text=explained_text,
+        target_language=language
     )
 
-    db.add(analysis)
-    db.commit()
+    # -----------------------------
+    # ADD DISCLAIMER
+    # -----------------------------
+    final_text = add_medical_disclaimer(
+        final_text,
+        language=language
+    )
 
-    print("🔥 ABSOLUTE TEST INSERT ID:", report.id)
+    # -----------------------------
+    # CREATE AUDIO
+    # -----------------------------
+    audio_path = text_to_voice(
+        text=final_text,
+        language=language
+    )
 
-    return {"id": report.id}
+    audio_url = None
+    if audio_path:
+        audio_url = f"/audio/{Path(audio_path).name}"
+
+    return {
+        "mode": mode,
+        "language": language,
+        "result": final_text,
+        "audio_url": audio_url
+    }
+
+
+# =========================================================
+# AUDIO SECTION (LIST ALL AUDIO FILES)
+# =========================================================
+@router.get("/audio/list")
+def list_audio_files():
+    audio_dir = Path("audio")
+
+    if not audio_dir.exists():
+        return {
+            "count": 0,
+            "audio_files": []
+        }
+
+    audio_files = [
+        f"/audio/{file.name}"
+        for file in audio_dir.iterdir()
+        if file.suffix == ".mp3"
+    ]
+
+    return {
+        "count": len(audio_files),
+        "audio_files": audio_files
+    }
