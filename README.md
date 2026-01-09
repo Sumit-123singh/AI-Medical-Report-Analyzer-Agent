@@ -1,71 +1,65 @@
 🩺 AI Medical Report Analyzer
 
-
 Built for Doctors. Designed for Patients.
 
-A backend-focused, production-style AI system that transforms complex medical reports into clear, actionable insights.
+FastAPI · OCR · Multi-Agent AI · Ollama · Text-to-Speech
 
-This system supports:
+A backend-focused, production-style AI system that converts complex medical reports (PDFs & images) into clear, multilingual, human-understandable medical explanations for both doctors and patients.
 
-🧑‍⚕️ Doctor-level technical explanations
+This system bridges the gap between raw medical reports and real-world understanding.
 
-🧍 Patient-friendly summaries
+🔹 Features
 
-🌍 Regional Indian languages
+🚀 Medical Report Understanding – Extracts and understands clinical data from scanned PDFs and images
+🧠 Multi-Agent AI System – Separate agents for medical reasoning, explanation, translation, and voice
+🧑‍⚕️ Doctor Mode – Technical, clinical, professional medical interpretation
+🧍 Patient Mode – Simple, easy-to-understand health explanations
+🌍 Multilingual Support – English, Hindi, Marathi, Tamil
+🔊 Audio Output – Converts explanations into speech using Text-to-Speech
+🔐 Secure System – OAuth2 + JWT authentication
+🗂 User History – Stores report results and audio files per user
+⚙️ Background Processing – Heavy AI & OCR tasks run asynchronously
+☁️ Deployment Ready – Works with cloud and local LLM servers
 
-🔊 Audio output (Text-to-Speech)
+🔹 Problem Statement
 
-⚠️ Note
-This project intentionally focuses on backend engineering, AI system design, and real healthcare workflows.
-The frontend is minimal — Swagger UI is the primary interface.
-
-
-
-🎯 Problem Statement
-
-Medical reports today are often:
+Medical reports today are:
 
 ❌ Hard for patients to understand
+⏱ Time-consuming for doctors to explain
+📄 Written in complex medical language
+🖨 Often provided as scanned PDFs or images
 
-⏱️ Time-consuming for doctors to explain
+This leads to confusion, delays, and misinterpretation.
 
-📄 Filled with complex medical terminology
-
-🖨️ Delivered as scanned PDFs or images
-
-
-
-
-✅ Solution
+🔹 Solution
 
 This system combines:
 
-OCR
+OCR (Optical Character Recognition)
 
-AI agents
+AI medical reasoning
 
 Language translation
 
 Audio generation
 
-into one clean, scalable backend pipeline.
+into one automated backend pipeline that converts raw medical reports into clear, multilingual, spoken explanations.
 
-🧑‍⚕️ Core Feature — Two Explanation Modes
-🔹 Doctor Mode
+🔹 Two Explanation Modes
+🧑‍⚕️ Doctor Mode
 
-Technical & clinical explanations
+Clinical & technical explanation
 
-Uses proper medical terminology
+Uses correct medical terminology
 
-Helps doctors review reports faster
+Designed for diagnosis & review
 
-Suitable for diagnosis & professional use
+Helps doctors save time
 
+🧍 Patient Mode
 
-
-🔹 Patient Mode
-
-Simple, human-friendly language
+Simple, friendly language
 
 Medical terms explained step-by-step
 
@@ -73,173 +67,117 @@ Designed for non-technical users
 
 Improves patient understanding
 
-👉 The same medical report is processed differently based on the selected mode.
+➡️ The same report is processed differently based on the selected mode.
 
-
-
-🌍 Multilingual Support (India-Focused)
+🔹 Multilingual Support
 
 Supported languages:
 
-✅ English
+English
 
-✅ Hindi
+Hindi
 
-✅ Marathi
+Marathi
 
-✅ Tamil
+Tamil
 
-This makes the system suitable for Indian healthcare environments and improves accessibility for non-English users.
-
-
-
-🚀 Key Features
-
-🔐 OAuth2 + JWT Authentication
-
-📄 Upload Medical Reports (PDF / Image)
-
-🧠 Multi-Agent AI Architecture
-
-🧑‍⚕️ Doctor & Patient Explanation Modes
-
-🌍 Multilingual Medical Explanations
-
-🔊 Text-to-Speech Audio Output
-
-🗂️ User-Specific Report History
-
-⚙️ Background Task Processing
-
-🧱 Clean, Modular FastAPI Backend
+This makes the system suitable for Indian healthcare environments and non-English speakers.
 
 
 
-
-
-📄 OCR (Optical Character Recognition)
-Why OCR?
+🔹 OCR System
 
 Medical reports are often scanned PDFs or images.
-AI models cannot read images directly — OCR converts them into text.
+AI cannot read images directly — OCR converts them into text.
 
-OCR Tools Used
+Tools Used
 
-pytesseract → Image text extraction
+pytesseract – image text extraction
 
-Pillow (PIL) → Image preprocessing
+Pillow – image preprocessing
 
-PDF reader → PDF text extraction
+PDF reader – PDF text extraction
 
-OpenCV → OCR accuracy experiments
+OpenCV – OCR accuracy improvement
 
 OCR Pipeline
 
-Detect file type (PDF / Image)
+Detect PDF or image
 
-Convert PDF pages to images (if needed)
+Convert pages to images (if needed)
 
 Extract raw text
 
-Clean noisy OCR output
+Clean OCR noise
 
-Send clean text to AI agents
+Send to AI agents
 
+🔹 AI Architecture
 
+The system uses a Multi-Agent AI Design.
 
-🧠 AI Architecture — Multi-Agent Design
+Agent	Role
+Medical Agent	Understands medical content
+Explanation Agent	Structures and simplifies output
+Translation Agent	Converts to regional languages
+Voice Agent	Generates audio
 
-Each agent follows the Single Responsibility Principle.
+This makes the system modular, scalable, and easy to maintain.
 
-AI Agents
+🔹 LLM Engine – Ollama + LLaMA 3.2
 
-Medical Agent → Understands medical content
-
-Explanation Agent → Simplifies & structures output
-
-Translation Agent → Converts language
-
-Voice Agent → Generates audio
-
-✅ Modular
-✅ Extensible
-✅ Easy to maintain
-
-
-
-🦙 Ollama Server & LLaMA 3.2
-What is Ollama?
-
-Ollama is a local LLM server that runs large language models offline.
+Ollama runs large language models locally.
 
 Why Ollama?
 
-🔒 Full data privacy (critical for medical data)
+Full data privacy
 
-💸 No paid API dependency
+No paid APIs
 
-⚡ Faster local experimentation
+Faster response
 
-Model Used
+Works offline
 
-LLaMA 3.2
+Model Used: LLaMA 3.2
 
-Use Cases
+Used for:
 
-Medical understanding
+Medical reasoning
 
-Explanation generation
+Explanation
 
 Summarization
 
 Translation prompts
 
-
-
-🔊 Text-to-Speech (Audio Generation)
+🔹 Text-to-Speech
 
 Uses gTTS (Google Text-to-Speech)
+Converts explanations into audio files.
 
-Converts final explanation into audio
+Useful for:
 
-Audio stored per report
+Visually impaired users
 
-Helpful For
+Elderly patients
 
-👁️ Visually impaired users
-
-👵 Elderly patients
-
-🎧 Audio-based understanding
+Audio-based understanding
 
 Audio files are stored in the audio/ directory.
 
+🔹 Background Processing
 
-
-⚙️ Background Tasks (FastAPI)
-
-Heavy operations such as:
-
-OCR processing
-
-AI inference
-
-Translation
-
-Audio generation
-
-are executed using FastAPI BackgroundTasks.
+OCR, AI inference, translation, and audio generation run using FastAPI BackgroundTasks.
 
 Benefits
 
-Faster API response
+Faster API responses
 
 Non-blocking execution
 
 Better scalability
 
-Improved user experience
-
+Smooth user experience
 
 
 📁 Project Structure
