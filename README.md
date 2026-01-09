@@ -233,7 +233,7 @@ Improved user experience
 
 📁 Complete Project Structure
 
-ai-medical-report-agent/
+****ai-medical-report-agent/
 │
 ├── app/
 │   ├── __init__.py
@@ -311,6 +311,7 @@ ai-medical-report-agent/
 ├── requirements.txt
 ├── .env
 └── README.md
+****
 
 1️⃣ Clone the Repository
 
