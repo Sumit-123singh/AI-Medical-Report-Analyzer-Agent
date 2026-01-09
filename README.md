@@ -114,6 +114,9 @@ This makes the system suitable for Indian healthcare environments and improves a
 
 
 🧠 High-Level System Flow
+
+```tex
+
 Medical Report (PDF / Image)
         ↓
 OCR Extraction
@@ -130,7 +133,7 @@ Translation Agent
         ↓
 Text-to-Speech Agent
         ↓
-Database Storage + Audio File
+Database Storage + Audio File   ```
 
 
 
